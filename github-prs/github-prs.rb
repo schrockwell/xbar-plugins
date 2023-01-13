@@ -22,6 +22,10 @@ REVIEW_ICONS = {
   'REVIEW_REQUIRED' => '👀'
 }
 
+SUBSTITUTIONS = {
+  ':shipit:' => '🐿️'
+}
+
 unless repo_dir
   puts 'ERROR: Repo directory must be configured'
   exit
@@ -61,6 +65,8 @@ sections.each do |section|
     pr_title = pr_title[0..(max_title_length - 1)] + "..." if pr_title.length > max_title_length
 
     item_text = [pr_icon, pr_number, pr_title, pr_labels].compact.join(' ').gsub('|','/')
+    SUBSTITUTIONS.each { |k, v| item_text.gsub!(k, v) }
+    
     item_params = "href=#{pr["url"]}"
 
     puts "#{item_text} | #{item_params}"
